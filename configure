@@ -1,0 +1,14 @@
+#!/bin/sh
+
+install_docker_compose() {
+  curl -L https://github.com/docker/compose/releases/download/1.1.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+}
+
+install_omzsh() {
+  apt-get install zsh
+  wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
+  chsh -s `which zsh`
+}
+
+install_docker_compose && install_omzsh
