@@ -5,10 +5,13 @@ install_docker_compose() {
 chmod +x /usr/local/bin/docker-compose
 }
 
+install_packages() {
+  apt-get update -y && apt-get install -y zsh tmux
+}
+
 install_omzsh() {
-  apt-get install zsh
   wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
   chsh -s `which zsh`
 }
 
-install_docker_compose && install_omzsh
+install_packages && install_omzsh && install_docker_compose

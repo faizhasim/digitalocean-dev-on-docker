@@ -1,0 +1,19 @@
+#!/bin/sh
+
+create_droplet() {
+  tugboat create dev && \
+    tugboat wait dev --state active
+}
+
+configure() {
+  tugboat ssh dev --ssh-command="" < remote/configure
+}
+
+copyfiles() {
+  tugboat info dev | grep IP | sed 's/IP://g' | sed 's/^ *//g' | pbcopy && \
+  scp -o StrictHostKeyChecking=no ~/.ssh/id_rsa root@`pbpaste`:/root/.ssh/id_rsa && \
+  scp -o StrictHostKeyChecking=no ~/.ssh/id_rsa.pub root@`pbpaste`:/root/.ssh/id_rsa.pub && \
+  scp -o StrictHostKeyChecking=no remote/configure root@`pbpaste`:/root/configure
+}
+
+create_droplet && copyfiles
